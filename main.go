@@ -140,7 +140,8 @@ func main() {
 		go elector.Run(context.Background())
 	}
 
-	glog.Info("Starting the Spark Operator")
+	glog.Info("Starting the Spark Operator -  asd")
+	glog.Info("Starting the -- mzo modified -- Spark Operator")
 
 	crClient, err := crclientset.NewForConfig(config)
 	if err != nil {

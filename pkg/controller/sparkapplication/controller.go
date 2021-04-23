@@ -502,6 +502,7 @@ func (c *Controller) syncSparkApplication(key string) error {
 		return fmt.Errorf("failed to get the namespace and name from key %s: %v", key, err)
 	}
 	app, err := c.getSparkApplication(namespace, name)
+	glog.Infof("spark application: %+v", app)
 	if err != nil {
 		return err
 	}
@@ -515,6 +516,7 @@ func (c *Controller) syncSparkApplication(key string) error {
 	}
 
 	appCopy := app.DeepCopy()
+	glog.Infof("spark application copy: %+v", appCopy)
 	// Apply the default values to the copy. Note that the default values applied
 	// won't be sent to the API server as we only update the /status subresource.
 	v1beta2.SetSparkApplicationDefaults(appCopy)
@@ -703,6 +705,7 @@ func (c *Controller) submitSparkApplication(app *v1beta2.SparkApplication) *v1be
 	if err != nil {
 		glog.Errorf("failed to create UI service for SparkApplication %s/%s: %v", app.Namespace, app.Name, err)
 	} else {
+		glog.Infof("[3] Complete service: %+v", service)
 		app.Status.DriverInfo.WebUIServiceName = service.serviceName
 		app.Status.DriverInfo.WebUIPort = service.servicePort
 		app.Status.DriverInfo.WebUIAddress = fmt.Sprintf("%s:%d", service.serviceIP, app.Status.DriverInfo.WebUIPort)
